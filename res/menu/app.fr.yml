@@ -15,8 +15,10 @@ fr:
               accelerator: 'CmdOrCtrl+Shift+N'
             - label: 'Liste'
               command: 'app:create-list'
-            - label: 'Mot-clé'
+              accelerator: 'CmdOrCtrl+Shift+L'
+            - label: 'Tag'
               command: 'app:create-tag'
+              accelerator: 'CmdOrCtrl+Shift+T'
         - type: 'separator'
         - &open
           label: 'Ouvrir'
@@ -83,7 +85,7 @@ fr:
           accelerator: 'Shift+Control+S'
           command: 'app:open-preferences'
     - &view
-      label: 'Affichage'
+      label: 'Présentation'
       submenu:
         - label: 'Basculer en plein écran'
           role: 'togglefullscreen'
@@ -92,7 +94,16 @@ fr:
         - label: 'Cacher la barre latérale'
           command: 'app:toggle-sidebar'
           enabled: false
-
+        - type: 'separator'
+        - label: 'Zoom'
+          submenu:
+            - label: 'Agrandir'
+              command: 'app:zoom-in'
+            - label: 'Réduire'
+              command: 'app:zoom-out'
+            - type: 'separator'
+            - label: 'Taille réelle'
+              command: 'app:zoom-reset'
     - &win
       label: 'Fenêtre'
       submenu:
