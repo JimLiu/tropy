@@ -23,6 +23,7 @@ en:
     Sidebar: &Sidebar
       next: ArrowDown
       prev: ArrowUp
+      clear: Escape
     ItemIterator: &ItemIterator
       up:
         - ArrowUp
@@ -116,11 +117,13 @@ en:
       bold: CmdOrCtrl+b
       italic: CmdOrCtrl+i
       underline: CmdOrCtrl+u
+      overline: CmdOrCtrl+o
       liftListItem: CmdOrCtrl+[
       sinkListItem: CmdOrCtrl+]
-      joinUp: Alt+ArrowUp
-      joinDown: Alt+ArrowDown
-      lift: CmdOrCtrl+ArrowLeft
+      addLink: CmdOrCtrl+l
+      joinUp: Shift+Alt+ArrowUp
+      joinDown: Shift+Alt+ArrowDown
+      lift: Shift+CmdOrCtrl+ArrowLeft
       selectAll: CmdOrCtrl+a
       clearSelection: Escape
       blockquote: CmdOrCtrl+Shift+>

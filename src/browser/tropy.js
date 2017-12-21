@@ -31,7 +31,7 @@ const { darwin } = require('../common/os')
 const { version } = require('../common/release')
 
 const {
-  FLASH, HISTORY, TAG, PROJECT, CONTEXT, SASS
+  FLASH, HISTORY, TAG, PROJECT, CONTEXT, SASS, LOCALE
 } = require('../constants')
 
 const WIN = SASS.WINDOW
@@ -48,7 +48,6 @@ class Tropy extends EventEmitter {
   static defaults = {
     frameless: darwin,
     debug: false,
-    locale: 'en', // app.getLocale() || 'en',
     theme: 'light',
     recent: [],
     updater: true,
@@ -269,12 +268,8 @@ class Tropy extends EventEmitter {
       .then(state => this.migrate(state))
 
       .tap(() => all([
-        this.menu.load(),
-        this.ctx.load(),
+        this.load(),
         this.cache.init(),
-        Strings
-          .openWithFallback(Tropy.defaults.locale, this.state.locale)
-          .then(strings => this.strings = strings)
       ]))
 
       .tap(state => state.updater && this.updater.start())
@@ -283,8 +278,18 @@ class Tropy extends EventEmitter {
       .tap(() => verbose('app state restored'))
   }
 
+  load() {
+    return all([
+      this.menu.load(),
+      this.ctx.load(),
+      Strings
+        .openWithFallback(LOCALE.default, this.state.locale)
+        .then(strings => this.strings = strings)
+    ])
+  }
+
   migrate(state) {
-    state.locale = 'en'
+    state.locale = this.getLocale(state.locale)
     state.version = this.version
     state.uuid = state.uuid || uuid()
 
@@ -401,11 +406,10 @@ class Tropy extends EventEmitter {
     this.on('app:save-tag', (_, tag) =>
       this.dispatch(act.tag.save(tag)))
 
-    this.on('app:remove-tag', (_, { target }) =>
+    this.on('app:delete-item-tag', (_, { target }) =>
       this.dispatch(act.item.tags.delete({
         id: target.items, tags: [target.id]
       })))
-
     this.on('app:delete-tag', (_, { target }) =>
       this.dispatch(act.tag.delete(target.id)))
 
@@ -434,6 +438,14 @@ class Tropy extends EventEmitter {
       verbose(`switching to "${theme}" theme...`)
       this.state.theme = theme
       this.broadcast('theme', theme)
+      this.emit('app:reload-menu')
+    })
+
+    this.on('app:switch-locale', async (_, locale) => {
+      verbose(`switching to "${locale}" locale...`)
+      this.state.locale = locale
+      await this.load()
+      this.broadcast('locale', locale)
       this.emit('app:reload-menu')
     })
 
@@ -627,8 +639,12 @@ class Tropy extends EventEmitter {
     }
   }
 
-  get defaults() {
-    return Tropy.defaults
+  getLocale(locale) {
+    return LOCALE[locale || app.getLocale()] || LOCALE.default
+  }
+
+  get defaultLocale() {
+    return this.getLocale()
   }
 
   get dict() {

@@ -11,6 +11,8 @@ en:
         =0 {No items in this view}
         one {1 item in this view}
         other {# items in this view}}
+    search:
+      placeholder: Search
   panel:
     metadata:
       tab: Metadata
@@ -84,6 +86,11 @@ en:
         themes:
           light: Light
           dark: Dark
+      locale:
+        locale: Locale
+        locales:
+          en: English
+          fr: Français
       template: Default Template
       debug: Enable Developer Mode
       dup:
@@ -98,6 +105,11 @@ en:
           invertScroll: Invert direction when scrolling in photos
           invertZoom: Invert direction when zooming in photos
           overlayToolbars: Automatically hide and show toolbars
+      zoomMode:
+        label: By default
+        option:
+          fit: Zoom photos to fit
+          fill: Zoom photos to fill
 
     project:
       label: Project
@@ -369,13 +381,17 @@ en:
       bold: Bold
       italic: Italic
       underline: Underline
+      overline: Overline
       strikethrough: Strikethrough
       subscript: Subscript
       superscript: Superscript
-      blockquote: Toggle Quote
-      ol: Toggle Numbered List
-      ul: Toggle Bulleted List
-      link: Insert Link
+      blockquote: Insert Blockquote
+      ol: Insert Numbered List
+      ul: Insert Bulleted List
+      link:
+        button: Toggle Link
+        target: Link target
+        title: Link title
       left: Align Left
       center: Center
       right: Align Right
